@@ -8,10 +8,9 @@ from app import models
 
 app = FastAPI()
 
-# Подключение роутеров
 app.include_router(users.router)
 app.include_router(articles.router)
-# app.include_router(comments.router)
+app.include_router(comments.router)
 
 @app.get("/")
 def root():
