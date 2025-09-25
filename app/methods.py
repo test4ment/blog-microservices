@@ -22,11 +22,10 @@ def get_article_by_slug(db: Session, slug: str):
     return db.query(models.Article).filter(models.Article.slug == slug).first()
 
 def generate_unique_slug(db: Session, title: str) -> str:
-    """Генерирует уникальный slug для статьи."""
     slug = slugify(title)
     original_slug = slug
     counter = 1
-    while db.query(models.Article).filter(models.Article.slug == slug).first():
+    while db.query(models.Article).filter(models.Article.slug == slug).first(): # dont do that
         slug = f"{original_slug}-{counter}"
         counter += 1
     return slug

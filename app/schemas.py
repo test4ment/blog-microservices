@@ -1,7 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 
-# --- Схемы для пользователя ---
 class UserBase(BaseModel):
     email: EmailStr
     username: str
@@ -26,7 +25,7 @@ class UserResponse(BaseModel):
     user: UserInDB
     token: str
 
-# --- Схемы для статьи ---
+
 class ArticleBase(BaseModel):
     title: str
     description: str
@@ -43,7 +42,7 @@ class ArticleInDB(ArticleBase):
     class Config:
         orm_mode = True
 
-# --- Схемы для комментариев ---
+
 class CommentBase(BaseModel):
     body: str
 
@@ -57,6 +56,5 @@ class CommentInDB(CommentBase):
     class Config:
         orm_mode = True
 
-# --- Схемы для JWT ---
 class TokenData(BaseModel):
     username: Optional[str] = None

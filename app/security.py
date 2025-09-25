@@ -8,8 +8,7 @@ from sqlalchemy.orm import Session
 from . import methods, models, schemas
 from .database import get_db
 
-# Настройки
-SECRET_KEY = "your-super-secret-key"  # В реальном проекте используйте переменные окружения
+SECRET_KEY = "super-hardcoded-key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

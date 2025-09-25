@@ -13,7 +13,6 @@ def add_comment_to_article(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(security.get_current_user)
 ):
-    """Добавление комментария к статье."""
     article = crud.get_article_by_slug(db, slug=slug)
     if not article:
         raise HTTPException(status_code=404, detail="Article not found")
@@ -22,7 +21,6 @@ def add_comment_to_article(
 
 @router.get("", response_model=List[schemas.CommentInDB])
 def get_comments_from_article(slug: str, db: Session = Depends(get_db)):
-    """Получение всех комментариев к статье."""
     article = crud.get_article_by_slug(db, slug=slug)
     if not article:
         raise HTTPException(status_code=404, detail="Article not found")
@@ -36,13 +34,11 @@ def delete_comment(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(security.get_current_user)
 ):
-    """Удаление комментария."""
     comment = crud.get_comment_by_id(db, comment_id=comment_id)
 
     if not comment:
         raise HTTPException(status_code=404, detail="Comment not found")
     
-    # Проверяем, что комментарий принадлежит именно этой статье
     if comment.article.slug != slug:
         raise HTTPException(status_code=404, detail="Comment not found on this article")
         

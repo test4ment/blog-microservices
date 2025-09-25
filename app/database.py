@@ -2,8 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# URL для подключения к PostgreSQL. Замените на ваши данные.
-# Формат: "postgresql://USER:PASSWORD@HOST:PORT/DB_NAME"
 SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost/blog_db"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

@@ -12,18 +12,15 @@ def create_new_article(
     db: Session = Depends(get_db), 
     current_user: models.User = Depends(security.get_current_user)
 ):
-    """Создание новой статьи."""
     return crud.create_article(db=db, article=article, user_id=current_user.id)
 
 @router.get("", response_model=List[schemas.ArticleInDB])
 def get_all_articles(db: Session = Depends(get_db)):
-    """Получение списка всех статей."""
     articles = db.query(models.Article).order_by(models.Article.created_at.desc()).all()
     return articles
 
 @router.get("/{slug}", response_model=schemas.ArticleInDB)
 def get_single_article(slug: str, db: Session = Depends(get_db)):
-    """Получение статьи по её slug."""
     db_article = crud.get_article_by_slug(db, slug=slug)
     if db_article is None:
         raise HTTPException(status_code=404, detail="Article not found")
@@ -36,7 +33,6 @@ def update_article(
     db: Session = Depends(get_db), 
     current_user: models.User = Depends(security.get_current_user)
 ):
-    """Обновление статьи."""
     db_article = crud.get_article_by_slug(db, slug=slug)
     if not db_article:
         raise HTTPException(status_code=404, detail="Article not found")
@@ -46,7 +42,6 @@ def update_article(
 
     update_data = article_update.dict(exclude_unset=True)
     
-    # Если заголовок меняется, генерируем новый slug
     if 'title' in update_data and db_article.title != update_data['title']:
         db_article.slug = crud.generate_unique_slug(db, update_data['title'])
 
@@ -63,7 +58,6 @@ def delete_article(
     db: Session = Depends(get_db), 
     current_user: models.User = Depends(security.get_current_user)
 ):
-    """Удаление статьи."""
     db_article = crud.get_article_by_slug(db, slug=slug)
     if not db_article:
         raise HTTPException(status_code=404, detail="Article not found")
